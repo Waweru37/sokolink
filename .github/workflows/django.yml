@@ -1,0 +1,61 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: sokolink
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      DB_NAME: sokolink
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: 127.0.0.1
+      DJANGO_SETTINGS_MODULE: sokolink_backend.settings
+      PYTHONUNBUFFERED: 1
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r sokolink_backend/requirements.txt
+
+    - name: Run migrations
+      run: |
+        cd sokolink_backend
+        python manage.py makemigrations
+        python manage.py migrate
+
+    - name: Run tests
+      run: |
+        cd sokolink_backend
+        python manage.py test
+
+
