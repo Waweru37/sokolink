@@ -1,97 +1,114 @@
-# 🌾 SokoLink: AgriTech USSD Platform
+# 🌾 SokoLink — Empowering Farmers Through USSD AgriTech
 
-**SokoLink** is a USSD-based solution that digitizes Kenya’s agricultural value chain, enabling farmers, buyers, and agents to connect, trade, and thrive — all through simple mobile interactions.
+**SokoLink** is a simple yet powerful USSD platform that connects small-scale Kenyan farmers to the digital marketplace — no smartphone required.
+
+---
 
 ## 🚀 Features
 
-- **Farmer Registration**
-- **Post/View Produce Listings**
-- **Market Search**
-- **Agent Support**
-- **SMS Notifications (optional)**
+- 📱 USSD-based interface (works on all phones)
+- 👨‍🌾 Farmer registration & verification
+- 📦 Post and view produce listings
+- 🔍 Real-time market search
+- 🔒 Secure data flow, lightweight design
+- 🌍 Built for rural-first accessibility
 
-## 📱 Sample USSD Flow
+---
 
-```
-Welcome to SokoLink!
-1. Register
-2. View/Post Products
-3. Search for Produce
-4. Agent Login
-```
+## 🧠 Tech Stack
 
-## 🛠️ Tech Stack
+| Layer         | Stack                                |
+|---------------|---------------------------------------|
+| Backend       | Django (Python)                      |
+| USSD Gateway  | Africa’s Talking                     |
+| Database      | SQLite (Local) / MySQL (Prod Ready)  |
+| Hosting       | Render / Heroku / VPS                |
 
-- **Django** + Django REST Framework
-- **Africa's Talking USSD API**
-- **SQLite (default) / MySQL (for production)**
+---
 
-## 🧪 Setup & Run Locally
+## 💻 Local Development
 
-### 1. Clone the repo
+### ⚙️ Prerequisites
+
+- Python 3.9+
+- pip
+- virtualenv (optional but recommended)
+
+### 🛠 Setup Instructions
 
 ```bash
-git clone https://github.com/yourusername/sokolink.git
+# Clone the repo
+git clone https://github.com/YOUR_USERNAME/sokolink.git
 cd sokolink/sokolink_backend
-```
 
-### 2. Create a virtual environment
-
-```bash
+# Create virtual environment
 python3 -m venv venv
 source venv/bin/activate
-```
 
-### 3. Install dependencies
-
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-*(Create a `requirements.txt` using `pip freeze > requirements.txt` once setup is done.)*
-
-### 4. Run migrations
-
-```bash
+# Apply migrations
 python manage.py makemigrations
 python manage.py migrate
-```
 
-### 5. Start the development server
-
-```bash
+# Start development server
 python manage.py runserver
 ```
 
-Visit your USSD callback endpoint at:
-```
-http://localhost:8000/ussd/
-```
-
 ---
 
-## ☁️ Deploying to Render
+## 🧪 Test the USSD Flow
 
-1. Push code to GitHub.
-2. Go to [Render](https://render.com/), create a new Web Service.
-3. Use this **start command**:
+Simulate requests using `curl`:
 
 ```bash
-gunicorn sokolink_backend.wsgi
+curl -X POST http://127.0.0.1:8000/ussd/   -d "sessionId=12345"   -d "serviceCode=*384#"   -d "phoneNumber=+254712345678"   -d "text="
 ```
 
-4. Set environment variable:
-```
-DJANGO_SETTINGS_MODULE=sokolink_backend.settings
-```
+→ You’ll get a response like:
 
-5. Use **Africa’s Talking** dashboard to point USSD requests to:
 ```
-https://<your-render-url>/ussd/
+CON Welcome to SokoLink!
+1. Register
+2. View/Post Products
+3. Search Market
 ```
 
 ---
 
-## 🤝 License
+## 🌍 Deployment
 
-MIT — open for innovation and deployment in Africa 🌍
+### Deploy to [Render](https://render.com/)
+
+1. Push code to GitHub
+2. Create a new Web Service on Render
+3. Set:
+   - Build command: `pip install -r requirements.txt`
+   - Start command: `gunicorn sokolink_backend.wsgi`
+   - Environment variable: `DJANGO_SETTINGS_MODULE=sokolink_backend.settings`
+4. Point your Africa's Talking USSD sandbox to:  
+   `https://your-app-name.onrender.com/ussd/`
+
+---
+
+## 🧠 Next Features (Planned)
+
+- Voice support for non-literate farmers (IVR)
+- Geo-filtered market searches
+- Agent dashboard & leaderboard
+- Integration with Mpesa & co-ops
+
+---
+
+## 🤝 Contributing
+
+PRs are welcome. Let’s build inclusive African tech!
+
+---
+
+## 📜 License
+
+MIT — free to use, expand, remix, deploy.
+
+> Empower farmers. Strengthen communities. One line of USSD at a time.
